@@ -1,4 +1,4 @@
-<?php 
+<?php
 include 'calculator.php';
 ?>
 <!DOCTYPE html>
@@ -24,16 +24,6 @@ include 'calculator.php';
 			<li class="float-left mx-2.5 mt-5"><a class="no-underline hover:underline visited:text-white" href="index.php#difficulties">Сложности</a></li>
 			<li class="float-left mx-2.5 mt-5"><a class="no-underline hover:underline visited:text-white" href="index.php#mood">Настроение</a></li>
 			<li class="float-left mx-2.5 mt-5"><a class="no-underline hover:underline visited:text-white" href="index.php#contacts">Контакты</a></li>
-			<?php //выделение жирным текщего пункто меню
-			/*$basename = pathinfo($_SERVER['REQUEST_URI'])['basename'];
-			if (!$basename) $basename = 'index.php';
-			$menuList = array('items' => array('Обо мне', 'Моя деятельность', 'Калькулятор', 'Сложности', 'Настроение', 'Контакты'), 'links' =>  array('index.php', 'activity.php', 'calculator.php', 'difficulties.php', 'mood.php', 'contacts.php'));
-			for ($i = 0; $i < count($menuList['items']); $i++) {
-				$bold = '';
-				if ($basename == $menuList['links'][$i]) $bold = 'font-bold';
-				echo "<li class=\"float-left mx-2.5 mt-5\"><a class=\"" . $bold . " no-underline hover:underline visited:text-white\" href=\"" . $menuList['links'][$i] . "\">" . $menuList['items'][$i] . "</a></li>";
-			}*/
-			?>
 		</ul>
 	</div>
 	<div id="about" class="font-sans text-sky-800 font-bold text-2xl w-3/4 mx-auto mb-12">
@@ -83,7 +73,15 @@ include 'calculator.php';
 		</form>
 		<div class="font-bold flex flex-row my-2.5">
 			<div>Ваш результат:&nbsp;</div>
-			<div id="rezult"><?php echo $rezult; ?></div>
+			<div id="result"><?php echo $result; ?></div>
+		</div>
+		<div>
+			Лог последних пяти действий:<br />
+			<?php
+			while ($data = mysqli_fetch_assoc($calcLog)) {
+				echo $data['number1'] . $data['action'] . $data['number2'] . "=" . $data['result'] . "<br />";
+			}
+			?>
 		</div>
 	</div>
 	<div id="difficulties" class="font-sans text-sky-800 text-4xl bg-sky-50 w-3/4 py-6 mx-auto">

@@ -1,5 +1,8 @@
 <?php
-$rezult = "Рассчет не производился.";
+$link = mysqli_connect('localhost', 'root', 'root', 'base');
+$result = '';
+$logQuery = "SELECT number1,number2,action,result FROM calc ORDER BY id DESC LIMIT 5";
+$calcLog = mysqli_query($link, $logQuery) or die(mysqli_error($link));
 if (isset($_POST['button'], $_POST['number1'], $_POST['number2'], $_POST['action'])) {
 	if (is_numeric($_POST['number1']) && is_numeric($_POST['number2'])) {
 		$number1 = $_POST['number1'];
@@ -7,24 +10,25 @@ if (isset($_POST['button'], $_POST['number1'], $_POST['number2'], $_POST['action
 		$action = $_POST['action'];
 		switch ($action) {
 			case "+":
-				$rezult = $number1 + $number2;
+				$result = $number1 + $number2;
 				break;
 			case "-":
-				$rezult = $number1 - $number2;
+				$result = $number1 - $number2;
 				break;
 			case "*":
-				$rezult = $number1 * $number2;
+				$result = $number1 * $number2;
 				break;
 			case "/":
-				if ($number2 != 0) {
-					$rezult = $number1 / $number2;
-				} else {
-					$rezult = "Деление на ноль";
-				}
+				if ($number2 != 0) $result = $number1 / $number2;
 				break;
+		}
+		if ($number2 != 0) {
+			$query = "INSERT INTO calc (number1,number2,action,result) VALUES(" . $number1 . "," . $number2 . ",\"" . $action . "\"," . $result . ");";
+			mysqli_query($link, $query) or die(mysqli_error($link));
+		} else {
+			$result = "Деление на ноль";
 		}
 	}
 } else {
-	$rezult = "Введите числа и действие";
+	$result = "Введите числа и действие";
 }
-?>
