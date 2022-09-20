@@ -1,32 +1,5 @@
-<?php
-$rezult = "Рассчет не производился.";
-if (isset($_POST['button'], $_POST['number1'], $_POST['number2'], $_POST['action'])) {
-	if (is_numeric($_POST['number1']) && is_numeric($_POST['number2'])) {
-		$number1 = $_POST['number1'];
-		$number2 = $_POST['number2'];
-		$action = $_POST['action'];
-		switch ($action) {
-			case "+":
-				$rezult = $number1 + $number2;
-				break;
-			case "-":
-				$rezult = $number1 - $number2;
-				break;
-			case "*":
-				$rezult = $number1 * $number2;
-				break;
-			case "/":
-				if ($number2 != 0) {
-					$rezult = $number1 / $number2;
-				} else {
-					$rezult = "Деление на ноль";
-				}
-				break;
-		}
-	}
-} else {
-	$rezult = "Введите числа и действие";
-}
+<?php 
+include 'calculator.php';
 ?>
 <!DOCTYPE html>
 <html lang="ru">
@@ -51,13 +24,23 @@ if (isset($_POST['button'], $_POST['number1'], $_POST['number2'], $_POST['action
 			<li class="float-left mx-2.5 mt-5"><a class="no-underline hover:underline visited:text-white" href="index.php#difficulties">Сложности</a></li>
 			<li class="float-left mx-2.5 mt-5"><a class="no-underline hover:underline visited:text-white" href="index.php#mood">Настроение</a></li>
 			<li class="float-left mx-2.5 mt-5"><a class="no-underline hover:underline visited:text-white" href="index.php#contacts">Контакты</a></li>
+			<?php //выделение жирным текщего пункто меню
+			/*$basename = pathinfo($_SERVER['REQUEST_URI'])['basename'];
+			if (!$basename) $basename = 'index.php';
+			$menuList = array('items' => array('Обо мне', 'Моя деятельность', 'Калькулятор', 'Сложности', 'Настроение', 'Контакты'), 'links' =>  array('index.php', 'activity.php', 'calculator.php', 'difficulties.php', 'mood.php', 'contacts.php'));
+			for ($i = 0; $i < count($menuList['items']); $i++) {
+				$bold = '';
+				if ($basename == $menuList['links'][$i]) $bold = 'font-bold';
+				echo "<li class=\"float-left mx-2.5 mt-5\"><a class=\"" . $bold . " no-underline hover:underline visited:text-white\" href=\"" . $menuList['links'][$i] . "\">" . $menuList['items'][$i] . "</a></li>";
+			}*/
+			?>
 		</ul>
 	</div>
 	<div id="about" class="font-sans text-sky-800 font-bold text-2xl w-3/4 mx-auto mb-12">
 		<div class="float-left mx-12">
 			<div class="text-4xl my-12">Меня зовут Николай!</div>
-			<div class="my-12 italic">Я хочу обучаться программированию</div>
-			<div class="my-12 italic">А еще я люблю фотографировать</div>
+			<div class="my-12 italic font-semibold">Я хочу обучаться программированию</div>
+			<div class="my-12 italic font-semibold">А еще я люблю фотографировать</div>
 		</div>
 		<div class="mt-12"><img src="./img/foto.jpg" /></div>
 	</div>
@@ -78,8 +61,10 @@ if (isset($_POST['button'], $_POST['number1'], $_POST['number2'], $_POST['action
 	</div>
 	<div id="calculator" class="font-sans text-sky-800 text-base w-3/4 py-6 mx-auto">
 		<div class="text-4xl font-bold mb-6">Калькулятор</div>
-		<form action="index.php#calculator" method="post">
-			<input name="number1" class="border border-black px-1" type="text" placeholder="Введите число" value="<?php if (isset($_POST['number1'])) { echo $_POST['number1']; } ?>" />
+		<form action="#calculator" method="post">
+			<input name="number1" class="border border-black px-1" type="text" placeholder="Введите число" value="<?php if (isset($_POST['number1'])) {
+																														echo $_POST['number1'];
+																													} ?>" />
 			<select name="action" class="border border-black">
 				<option value="" selected disabled hidden>Выберите действие</option>
 				<?php
@@ -91,7 +76,9 @@ if (isset($_POST['button'], $_POST['number1'], $_POST['number2'], $_POST['action
 				}
 				?>
 			</select>
-			<input name="number2" class="border border-black px-1" type="text" placeholder="Введите число" value="<?php if (isset($_POST['number2'])) { echo $_POST['number2']; } ?>" />
+			<input name="number2" class="border border-black px-1" type="text" placeholder="Введите число" value="<?php if (isset($_POST['number2'])) {
+																														echo $_POST['number2'];
+																													} ?>" />
 			<button name="button" class="bg-blue-800 hover:bg-blue-700 text-white py-1 px-4 rounded">Рассчитать</button>
 		</form>
 		<div class="font-bold flex flex-row my-2.5">
