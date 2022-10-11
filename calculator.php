@@ -1,34 +1,35 @@
 <?php
-$link = mysqli_connect('localhost', 'root', 'root', 'base');
-$result = '';
-$logQuery = "SELECT number1,number2,action,result FROM calc ORDER BY id DESC LIMIT 5";
-$calcLog = mysqli_query($link, $logQuery) or die(mysqli_error($link));
-if (isset($_POST['button'], $_POST['number1'], $_POST['number2'], $_POST['action'])) {
-	if (is_numeric($_POST['number1']) && is_numeric($_POST['number2'])) {
-		$number1 = $_POST['number1'];
-		$number2 = $_POST['number2'];
-		$action = $_POST['action'];
-		switch ($action) {
-			case "+":
-				$result = $number1 + $number2;
-				break;
-			case "-":
-				$result = $number1 - $number2;
-				break;
-			case "*":
-				$result = $number1 * $number2;
-				break;
-			case "/":
-				if ($number2 != 0) $result = $number1 / $number2;
-				break;
-		}
-		if ($number2 != 0) {
-			$query = "INSERT INTO calc (number1,number2,action,result) VALUES(" . $number1 . "," . $number2 . ",\"" . $action . "\"," . $result . ");";
-			mysqli_query($link, $query) or die(mysqli_error($link));
-		} else {
-			$result = "Деление на ноль";
-		}
+class Calculator
+{
+	public function __construct(int $number1, int $number2, string $action)
+	{
+		$this->number1 = $number1;
+		$this->number2 = $number2;
+		$this->action = $action;
 	}
-} else {
-	$result = "Введите числа и действие";
+	public function calculate()
+	{
+		$link = mysqli_connect('localhost', 'root', 'root', 'base');
+				switch ($this->action) {
+					case "+":
+						$result = $this->number1 + $this->number2;
+						break;
+					case "-":
+						$result = $this->number1 - $this->number2;
+						break;
+					case "*":
+						$result = $this->number1 * $this->number2;
+						break;
+					case "/":
+						if ($this->number2 != 0) $result = $this->number1 / $this->number2;
+						break;
+				}
+				if ($this->number2 != 0) {
+					$query = "INSERT INTO calc (number1,number2,action,result) VALUES(" . $this->number1 . "," . $this->number2 . ",\"" . $this->action . "\"," . $result . ");";
+					mysqli_query($link, $query) or die(mysqli_error($link));
+				} else {
+					$result = "Деление на ноль";
+				}
+		echo $result;
+	}
 }

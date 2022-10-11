@@ -1,5 +1,5 @@
 <?php
-//include 'calculator.php';
+include 'calculator.php';
 ?>
 <!DOCTYPE html>
 <html lang="ru">
@@ -83,10 +83,11 @@
 	<section>
 		<div id="calculator" class="text-sky-800 text-base w-3/4 py-6 mx-auto">
 			<div class="font-['Inter'] text-4xl font-bold mb-6 flex">Калькулятор</div>
+			<form action="#calculator" method="post" class="w-1/2">
 				<div class="flex flex-col mr-5 w-1/2">
 					<input id="number1" name="number1" class="border border-black px-1 mb-5" type="text" placeholder="Введите число" value="<?php if (isset($_POST['number1'])) {
-																																	echo $_POST['number1'];
-																																} ?>" />
+																																				echo $_POST['number1'];
+																																			} ?>" />
 					<select id="action" name="action" class="border border-black mb-5">
 						<option value="" selected disabled hidden>Выберите действие</option>
 						<?php
@@ -99,21 +100,25 @@
 						?>
 					</select>
 					<input id="number2" name="number2" class="border border-black px-1 mb-5" type="text" placeholder="Введите число" value="<?php if (isset($_POST['number2'])) {
-																																	echo $_POST['number2'];
-																																} ?>" />
-					<button name="button" class="bg-blue-800 hover:bg-blue-700 text-white py-1 px-4 mb-5 rounded" type="submit" onclick="calculate(); $('.modal').addClass('modal_active');">Рассчитать</button>
+																																				echo $_POST['number2'];
+																																			} ?>" />
+					<button name="button" class="bg-blue-800 hover:bg-blue-700 text-white py-1 px-4 mb-5 rounded">Рассчитать</button>
 				</div>
+			</form>
 			<div class="flex flex-col w-1/2">
-				<!--<div class="font-bold my-2.5">
+				<div class="font-bold my-2.5">
 					<div>Ваш результат:&nbsp;</div>
-					<div class="font-normal" id="result"><?php echo $result; ?></div>
+					<div class="font-normal" id="result"><?php if (isset($_POST['button'], $_POST['number1'], $_POST['number2'], $_POST['action'])) {
+																$calc = new Calculator($_POST['number1'], $_POST['number2'], $_POST['action']);
+																$calc->calculate();
+															} ?></div>
 				</div>
-				<div>
+				<!--<div>
 					<b>Лог последних пяти действий:</b><br />
 					<?php
-					while ($data = mysqli_fetch_assoc($calcLog)) {
+					/*while ($data = mysqli_fetch_assoc($calcLog)) {
 						echo $data['number1'] . $data['action'] . $data['number2'] . "=" . $data['result'] . "<br />";
-					}
+					}*/
 					?>
 				</div>-->
 			</div>
